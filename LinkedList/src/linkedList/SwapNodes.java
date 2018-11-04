@@ -12,6 +12,15 @@ public class SwapNodes {
 		
 		LinkedListNode<Integer> p1 = null, p2 = null, c1 = null, c2 = null, temp = head;
 		
+		int length = 1;
+	      
+	    while(head.next != null) {
+	        head = head.next;
+	        length++;
+	    }
+	    
+	    head = temp;
+		
 		if ((i == 0) && (j - i) == 1) {
 			c1 = temp;
 			c2 = temp.next;
@@ -54,6 +63,27 @@ public class SwapNodes {
 			c2.next = c1;
 			p1.next = c2;
 			
+		} else if (j == (length - 1)) { 
+			int a = 0;
+			while (a < i) {
+				p1 = temp;
+				c1 = temp.next;
+				temp = temp.next;
+				a++;
+			}
+			
+			while (a < j) {
+				p2 = temp;
+				c2 = temp.next;
+				temp = temp.next;
+				a++;
+			}
+			LinkedListNode<Integer> temp1 = c1.next;
+			p1.next = c2;
+			p2.next = c1;
+			c1.next = c2.next;
+			c2.next = temp1;
+			
 		} else {
 			int a = 0;
 			while (a < i) {
@@ -69,10 +99,11 @@ public class SwapNodes {
 				a++;
 			}
 		
+			LinkedListNode<Integer> temp1 = c1.next;
 			p1.next = c2;
 			p2.next = c1;
 			c1.next = c2.next;
-			c2.next = p2;
+			c2.next = temp1;
 			
 		}
 		return head;
