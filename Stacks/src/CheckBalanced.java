@@ -68,11 +68,12 @@ public class CheckBalanced {
 				s.pop();
 			}
 			
-			else if(ip.charAt(i) == '}' && s.top() == '{') {
-				s.pop();
-			}
-			
-			else {
+			else if(ip.charAt(i) == '}' ) {
+				if ( !s.isEmpty() && s.top() == '{')
+					s.pop();
+				else 
+					s.push(ip.charAt(i));
+			} else {
 				continue;
 			}
 		}
@@ -83,6 +84,9 @@ public class CheckBalanced {
 			return false;
 		}
 	}
+	
+	//yaha pe tu else clause ko saath le sakta tha and }, ], ) inka ek hi case banake pehle ki stack empty hai ki nhi check 
+	//kara skta tha if stack empty, return false....toh isse s.top == '{' ... ispe jo null error aa rha tha woh nhi aata
 
 	public static void main(String[] args) throws StackEmptyException {
 		Scanner s = new Scanner(System.in);
