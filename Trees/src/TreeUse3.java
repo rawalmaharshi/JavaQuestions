@@ -124,11 +124,11 @@ public class TreeUse3 {
 			try {
 				TreeNode<Integer> frontNode = que.dequeue();
 				
+				
 				if (frontNode.children.size() > 0) {
 					for (int i = 0; i < frontNode.children.size(); i++) {
 						System.out.print(frontNode.children.get(i).data + " ");
 						que.enqueue(frontNode.children.get(i));
-						
 					}
 					System.out.println();
 				}	
@@ -137,6 +137,39 @@ public class TreeUse3 {
 			}
 		}
 	}
+	
+	public static void printLevelWiseSir(TreeNode<Integer> root){
+  		QueueUsingLL<TreeNode<Integer>> pendingNodes = new QueueUsingLL<TreeNode<Integer>>();
+  		pendingNodes.enqueue(root);
+  		pendingNodes.enqueue(null);
+  		while(!pendingNodes.isEmpty()){
+  			TreeNode<Integer> currentNode;
+  			try {
+  				currentNode = pendingNodes.dequeue();
+  				if(currentNode==null){
+  					System.out.println();
+  					if(!pendingNodes.isEmpty()){
+  						pendingNodes.enqueue(null);
+  						continue;
+  					}else{
+  						break;
+  					}
+  				}
+  				if (pendingNodes.front() == null)  {
+  					System.out.print(currentNode.data);
+  				} else {
+  					System.out.print(currentNode.data+" ");
+  				}
+  				
+  				int numChild = currentNode.children.size();
+  				for(int i = 0 ; i < numChild; i++){
+  					pendingNodes.enqueue(currentNode.children.get(i));
+  				}
+
+  			} catch (QueueEmptyException e) {
+  			}
+  		}
+  	}
 	
 	public static TreeNode<Integer> takeInputLevelWise(){
 		QueueUsingLL<TreeNode<Integer>> pendingNodes = new QueueUsingLL<TreeNode<Integer>>();  // Queue of node that are entered themselves but their children aren't added yet
@@ -164,11 +197,11 @@ public class TreeUse3 {
 	public static void main(String[] args) {
 		TreeNode<Integer> root = takeInputLevelWise();
 //		printLevelWise(root);
-		printLevelWise2(root);
-		System.out.println("No. of nodes: " + numNodes(root));
-		System.out.println("Largest Node: " + largestNode(root));
-		printAtK(root, 2);
-		printPreOrder(root);
+		printLevelWiseSir(root);
+//		System.out.println("No. of nodes: " + numNodes(root));
+//		System.out.println("Largest Node: " + largestNode(root));
+//		printAtK(root, 2);
+//		printPreOrder(root);
 	}
 
 }
