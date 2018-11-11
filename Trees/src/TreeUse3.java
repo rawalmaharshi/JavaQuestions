@@ -142,6 +142,7 @@ public class TreeUse3 {
   		QueueUsingLL<TreeNode<Integer>> pendingNodes = new QueueUsingLL<TreeNode<Integer>>();
   		pendingNodes.enqueue(root);
   		pendingNodes.enqueue(null);
+  		
   		while(!pendingNodes.isEmpty()){
   			TreeNode<Integer> currentNode;
   			try {
@@ -160,6 +161,36 @@ public class TreeUse3 {
   				} else {
   					System.out.print(currentNode.data+" ");
   				}
+  				
+  				int numChild = currentNode.children.size();
+  				for(int i = 0 ; i < numChild; i++){
+  					pendingNodes.enqueue(currentNode.children.get(i));
+  				}
+
+  			} catch (QueueEmptyException e) {
+  			}
+  		}
+  	}
+	
+	public static void printLevelWiseSir2(TreeNode<Integer> root){
+  		QueueUsingLL<TreeNode<Integer>> pendingNodes = new QueueUsingLL<TreeNode<Integer>>();
+  		pendingNodes.enqueue(root);
+  		System.out.println(root.data);
+  		
+  		while(!pendingNodes.isEmpty()){
+  			TreeNode<Integer> currentNode;
+  			try {
+  				currentNode = pendingNodes.dequeue();
+  				if(currentNode==null){
+  					System.out.println();
+  					if(!pendingNodes.isEmpty()){
+  						pendingNodes.enqueue(null);
+  						continue;
+  					}else{
+  						break;
+  					}
+  				}
+  				System.out.print(currentNode.data + " ");
   				
   				int numChild = currentNode.children.size();
   				for(int i = 0 ; i < numChild; i++){
