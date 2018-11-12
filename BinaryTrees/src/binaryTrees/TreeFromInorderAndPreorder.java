@@ -6,57 +6,36 @@ public class TreeFromInorderAndPreorder {
 	
 	private static BinaryTreeNode<Integer> getTreeFromPreorderAndInorder (int[] preorder, int[] inorder, int preSI, int preEI, int inSI, int inEI) {
 		//base case
-		if (preSI > preEI) {
-			BinaryTreeNode<Integer> op = new BinaryTreeNode<Integer>(preorder[preSI]);
-			return op;
+		if (inSI > inEI) {
+			return null;
 		}
 		
-		int root = preorder[preSI];
-		int i = 0;
-		int minilength = 0;
-		int leftTreeIOsI = 0, leftTreeIOeI = 0;
-		int rightTreeIOsI = 0, rightTreeIOeI = 0;
-		for ( ; i < inorder.length; i++) {
-			minilength++;
-			if (inorder[i] == root)
-				break;	
-		}
-		leftTreeIOsI = inSI;
-		leftTreeIOeI = i - 1;
-		
-		int leftInorder[] = new int[minilength];
-		for (i = 0; i < minilength; i++) 
-			leftInorder[i] = inorder[i];
-		
-		int rightInorder[] = new int[minilength];
-		for (int k = 0, j = i + 1; k < minilength; k++, j++) {
-			rightInorder[k] = inorder[j];
+		int rootData = preorder[preSI];
+		BinaryTreeNode<Integer> root = new BinaryTreeNode<Integer>(rootData);
+		int rootIndex = -1;
+		for (int i = inSI ; i <= inEI; i++) {
+			if (inorder[i] == rootData) {
+				rootIndex = i;
+				break;
+			}
 		}
 		
-		//Iske upar left Inorder aur right inorder tayaar hai
-		
-		int [] leftPreorder = new int[minilength];
-		int [] rightPreorder = new int[minilength];
-		int leftTreePOsI = preSI + 1, leftTreePOeI = 0;
-		int rightTreePOsI = 0, rightTreePOeI = 0;
-		
-		i = 0;
-		int j = preSI + 1;
-		for ( ; i < minilength; i++, j++) {
-			leftPreorder[i] = preorder[j];
+		//if element not found (input is wrong)
+		if (rootIndex == -1) {
+			return null;
 		}
 		
-		leftTreePOeI = i -1;
-		rightTreePOsI = i;
-		for (j = 0; j < minilength; i++, j++) {
-			rightPreorder[j] = preorder[i];
-		}
-		rightTreePOeI = i -1;
+		int leftIOsI = inSI;
+		int leftIOeI = rootIndex - 1;
+		int leftPOsI = preSI + 1;
+		int leftPOeI = leftIOeI - leftIOsI + leftPOsI ;
+		int rightIOsI = rootIndex + 1;
+		int rightIOeI = inEI;
+		int rightPOsI = leftPOeI + 1;
+		int rightPOeI = preEI;
 		
-		// Iske upar baki ka maal tayaar hai
-		
-		getTreeFromPreorderAndInorder(leftPreorder, leftInorder, leftTreePOsI, leftTreePOeI, leftTreeIOsI, leftTreeIOeI);
-		getTreeFromPreorderAndInorder(rightPreorder, rightInorder, rightTreePOsI, rightTreePOeI, rightTreeIOsI, rightTreeIOeI);
+		root.left = getTreeFromPreorderAndInorder(preorder, inorder, leftPOsI, leftPOeI, leftIOsI, leftIOeI);
+		root.right = getTreeFromPreorderAndInorder(preorder, inorder, rightPOsI, rightPOeI, rightIOsI, rightIOeI);
 		
 		return root;
 	}
