@@ -21,7 +21,7 @@ public class SecondLargest {
 				if(ans.max.data < smallAns.max.data) {
 					ans.secondMax = ans.max;
 					ans.max = smallAns.max;
-				} else {
+				} else if(ans.max.data > smallAns.max.data) {
 					ans.secondMax = smallAns.max;
 				}
 			}
@@ -63,6 +63,8 @@ public class SecondLargest {
 					if (temp.data > ans.secondMax.data) {
 						ans.secondMax = temp;
 					}
+				} else if (ans.secondMax.data == ans.max.data) {
+					ans.secondMax.data = smallAns.max.data;
 				} else {
 					TreeNode<Integer> temp = ans.max;
 					ans.max = smallAns.max;

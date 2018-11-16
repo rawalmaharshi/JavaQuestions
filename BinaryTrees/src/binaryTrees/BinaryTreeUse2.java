@@ -16,7 +16,7 @@ public class BinaryTreeUse2 {
 		}
 		
 		if (root.right != null) {
-			toBePrinted += "R: " + root.right.data;
+			toBePrinted += "R:" + root.right.data;
 		}
 		
 		System.out.println(toBePrinted);
