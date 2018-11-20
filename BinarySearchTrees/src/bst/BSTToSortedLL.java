@@ -2,6 +2,7 @@ package bst;
 
 import java.util.Scanner;
 
+
 class LinkedListNode<T> {
 	T data;
 	LinkedListNode<T> next;
@@ -27,21 +28,43 @@ public class BSTToSortedLL {
 		
 		LinkedListNode<Integer> root1 = new LinkedListNode<>(root.data); //This is the LinkedListNode
 		
-		if (leftOutput == null && rightOutput == null) {
-			HeadTail<LinkedListNode<Integer>> output = new HeadTail<>();
-			output.head = root1;
-			output.tail = root1;
-			return output;
+		if(leftOutput.head == null) {
+			leftOutput.head = root1;
+			leftOutput.tail = root1;
 		} else {
-			HeadTail<LinkedListNode<Integer>> output = new HeadTail<>();
-			output.tail.next = root1;
-			return output;
+			leftOutput.head.next = root1;
+			leftOutput.tail = root1;
 		}
+		
+		if(rightOutput.head == null) {
+			rightOutput.head = root1;
+			rightOutput.tail = root1;
+		}
+		
+		leftOutput.tail.next = root1;
+		root1.next = rightOutput.head;
+		rightOutput.tail.next = null;
+		
+//		System.out.println(root1.data);
+//		System.out.println(rightOutput.head.data + ", " + rightOutput.tail.data);
+		return leftOutput;
 	}
 	
 	public static LinkedListNode<Integer> BSTLL(BinaryTreeNode<Integer> root){
 		//base case
-		return BSTToSortedLLHelper(root).head;
+		return inOrder(root, null);
+	}
+	
+	public static LinkedListNode<Integer> inOrder (BinaryTreeNode<Integer> root, LinkedListNode<Integer> answer) {
+		//base case
+		if (root == null) {
+			return null;
+		}
+				
+		inOrder(root.left, answer);
+		LinkedListNode<Integer> dataNode = new LinkedListNode<Integer>(root.data);
+		inOrder(root.right, answer);	
+		return answer;
 	}
 	
 	static Scanner s = new Scanner(System.in);
