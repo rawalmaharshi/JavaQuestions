@@ -14,73 +14,28 @@ class LinkedListNode<T> {
 
 public class BSTToSortedLL {
 	
-	public static HeadTail<LinkedListNode<Integer>> BSTToSortedLLHelper(BinaryTreeNode<Integer> root){
-		//base case
-		if (root == null) {
-			HeadTail<LinkedListNode<Integer>> output = new HeadTail<>();
-			output.head = null;
-			output.tail = null;
-			return output;
-		}
-		
-		HeadTail<LinkedListNode<Integer>> leftOutput = BSTToSortedLLHelper(root.left);
-		HeadTail<LinkedListNode<Integer>> rightOutput = BSTToSortedLLHelper(root.right);
-		
-		LinkedListNode<Integer> root1 = new LinkedListNode<>(root.data); //This is the LinkedListNode
-		
-		if(leftOutput.head == null) {
-			leftOutput.head = root1;
-			leftOutput.tail = root1;
-		} else {
-			leftOutput.head.next = root1;
-			leftOutput.tail = root1;
-		}
-		
-		if(rightOutput.head == null) {
-			rightOutput.head = root1;
-			rightOutput.tail = root1;
-		}
-		
-		leftOutput.tail.next = root1;
-		root1.next = rightOutput.head;
-		rightOutput.tail.next = null;
-		
-//		System.out.println(root1.data);
-//		System.out.println(rightOutput.head.data + ", " + rightOutput.tail.data);
-		return leftOutput;
-	}
-	
-	public static LinkedListNode<Integer> BSTLL(BinaryTreeNode<Integer> root){
-		//base case
-		return inOrder(root);
-	}
-	
-	public static LinkedListNode<Integer> inOrder (BinaryTreeNode<Integer> root) {
+	public static LinkedListNode<Integer> BSTLL (BinaryTreeNode<Integer> root) {
 		//base case
 		if (root == null) {
 			return null;
 		}
-				
-		LinkedListNode<Integer> head = null, tail = null;
+		LinkedListNode<Integer> rightHead = null, leftHead = null;
+		leftHead = BSTLL(root.left);
 		LinkedListNode<Integer> dataNode = new LinkedListNode<Integer>(root.data);
-		
-//		if (answer == null) {
-//			answer = dataNode;
-//		}
-//		answer.next = dataNode;
-//		
-//		answer.next = inOrder(root.right);	
-//		return answer;
-		inOrder(root.left);
-		head = dataNode;
-		tail = dataNode;
-		if (head != null) {
-			head.next = dataNode;
-			tail = dataNode;
+		if (leftHead != null) {
+			LinkedListNode<Integer> temp = leftHead;
+			while(temp.next != null) {
+				temp = temp.next;
+			}
+			temp.next = dataNode;
+		} else {
+			leftHead = dataNode;
 		}
-		inOrder(root.right);
-		return head;
 		
+		rightHead = BSTLL(root.right);
+		dataNode.next = rightHead;
+		
+		return leftHead;
 	}
 	
 	static Scanner s = new Scanner(System.in);
