@@ -52,19 +52,35 @@ public class BSTToSortedLL {
 	
 	public static LinkedListNode<Integer> BSTLL(BinaryTreeNode<Integer> root){
 		//base case
-		return inOrder(root, null);
+		return inOrder(root);
 	}
 	
-	public static LinkedListNode<Integer> inOrder (BinaryTreeNode<Integer> root, LinkedListNode<Integer> answer) {
+	public static LinkedListNode<Integer> inOrder (BinaryTreeNode<Integer> root) {
 		//base case
 		if (root == null) {
 			return null;
 		}
 				
-		inOrder(root.left, answer);
+		LinkedListNode<Integer> head = null, tail = null;
 		LinkedListNode<Integer> dataNode = new LinkedListNode<Integer>(root.data);
-		inOrder(root.right, answer);	
-		return answer;
+		
+//		if (answer == null) {
+//			answer = dataNode;
+//		}
+//		answer.next = dataNode;
+//		
+//		answer.next = inOrder(root.right);	
+//		return answer;
+		inOrder(root.left);
+		head = dataNode;
+		tail = dataNode;
+		if (head != null) {
+			head.next = dataNode;
+			tail = dataNode;
+		}
+		inOrder(root.right);
+		return head;
+		
 	}
 	
 	static Scanner s = new Scanner(System.in);
