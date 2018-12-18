@@ -27,7 +27,7 @@ public class Knapsack01 {
 	}
 
 	public static int knapsackM(int[] weight, int value[], int maxWeight, int n) {
-		int[] storage = new int[n + 1];
+		int[] storage = new int[n];
 		for (int i = 0; i < storage.length; i++) {
 			storage[i] = -1;
 		}
@@ -37,7 +37,7 @@ public class Knapsack01 {
 	private static int knapsackM(int[] weight, int[] value, int maxWeight, int n, int currIndex, int currValue,
 			int[] storage) {
 		// base case
-		if (currIndex >= n || maxWeight == 0) {
+		if (currIndex == n || maxWeight == 0) {
 			return currValue;
 		}
 
@@ -63,29 +63,39 @@ public class Knapsack01 {
 	public static int knapsackDP(int[] weight, int value[], int maxWeight, int n) {
 		int[][] storage = new int[n + 1][maxWeight + 1];
 		int i, j;
-		
-		for(j = 0; j <= maxWeight; j++) {
+
+		for (j = 0; j <= maxWeight; j++) {
 			storage[0][j] = 0;
 		}
 
-		
-		for(i = 0; i <= n; i++) {
+		for (i = 0; i <= n; i++) {
 			storage[i][0] = 0;
 		}
-		
-		
-		
+
 		for (i = 1; i <= n; i++) {
 			for (j = 1; j <= maxWeight; j++) {
-				if (weight[i-1] <= j) {
+				if (weight[i - 1] <= j) {
 //					storage[i][j] = Math.max((value[i - 1] + storage[i - 1][j - weight[i - 1]]), storage[i - 1][j]);
-					storage[i][j] = Math.max(storage[i-1][j], value[i-1] + storage[i - 1][j - weight[i-1]]);
+					storage[i][j] = Math.max(storage[i - 1][j], value[i - 1] + storage[i - 1][j - weight[i - 1]]);
 				} else {
 					storage[i][j] = storage[i - 1][j];
 				}
 			}
 		}
 		return storage[n][maxWeight];
+	}
+
+	public static int knapsackDPOptimal(int[] weight, int value[], int maxWeight, int n) {
+		int storage[] = new int[maxWeight + 1];
+
+		for (int i = 0; i < n; i++) {
+			for (int j = maxWeight; j >= weight[i]; j--) {
+				storage[j] = Math.max(storage[j], value[i] + storage[j - weight[i]]);
+//				System.out.println("Value of storage[" + j + "] is: " + storage[j]);
+			}
+		}
+
+		return storage[maxWeight];
 	}
 
 	public static void main(String[] args) {
@@ -100,7 +110,7 @@ public class Knapsack01 {
 			value[i] = s.nextInt();
 		}
 		int maxWeight = s.nextInt();
-		System.out.println(knapsackM(weight, value, maxWeight, n));
+		System.out.println(knapsackDPOptimal(weight, value, maxWeight, n));
 		s.close();
 	}
 

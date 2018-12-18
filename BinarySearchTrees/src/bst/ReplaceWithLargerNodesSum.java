@@ -10,10 +10,12 @@ public class ReplaceWithLargerNodesSum {
 			return 0 ;
 		}
 		
-		sum += root.data;
-//		sum += replaceHelper(root.right, sum);
-		root.data = sum;
-		return sum;
+		int rightData = replaceHelper(root.right, sum);
+		sum += rightData;
+		root.data += sum;
+		replaceHelper(root.left, sum);
+		
+		return root.data;
 	}
 
 	public static void replaceWithLargerNodesSum(BinaryTreeNode<Integer> root) {
