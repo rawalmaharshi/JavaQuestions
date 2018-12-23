@@ -2,31 +2,28 @@ package graphs;
 
 import java.util.Scanner;
 
-public class HasPath {
+public class IsConnected {
 	
-	private static boolean hasPathHelper (int [][] edges, int sv, int ev, boolean [] visited) {
-		//base case
-		if (edges[sv][ev] == 1) {
-			return true;
-		}
-		
+	private static boolean isConnectedHelper (int edges[][], int sv, boolean visited[]) {
 		visited[sv] = true;
 		
 		for (int i = 0; i < edges.length; i++) {
 			if (edges[sv][i] == 1 && !visited[i]) {
-				boolean res = hasPathHelper(edges, i, ev, visited);
-				if (res) {
-					return true;
-				}
+				isConnectedHelper(edges, i, visited);
 			}
 		}
 		
-		return false;
+		for (boolean elem : visited) {
+			if (elem == false) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
-	public static boolean hasPath(int[][] edges, int sv, int ev) {
+	public static boolean isConnected (int edges[][]) {
 		boolean visited[] = new boolean[edges.length];
-		return hasPathHelper(edges, sv, ev, visited);
+		return isConnectedHelper (edges, 0, visited);
 	}
 	
 	public static void main(String[] args) {
@@ -41,10 +38,8 @@ public class HasPath {
 			edges[fv][sv] = 1;
 			edges[sv][fv] = 1;
 		}
-		int startVertex = s.nextInt();
-		int endVertex = s.nextInt();
 		
-		System.out.println(hasPath(edges, startVertex, endVertex));;
+		System.out.println(isConnected(edges));;
 		s.close();
 	}
 
