@@ -44,7 +44,7 @@ public class HasPath {
 		int startVertex = s.nextInt();
 		int endVertex = s.nextInt();
 		
-		System.out.println(hasPath(edges, startVertex, endVertex));;
+		System.out.println(hasPath(edges, startVertex, endVertex));
 		s.close();
 	}
 
