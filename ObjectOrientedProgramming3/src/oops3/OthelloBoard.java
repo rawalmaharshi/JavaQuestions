@@ -25,8 +25,84 @@ public class OthelloBoard {
 			System.out.println();
 		}
 	}
+	
+	public boolean move (int symbol, int x, int y) {
+		if(x<0||x>=8||y<0||y>=8) {
+			return false;
+		}
+ 
+      int xDir[]={-1,-1,0,1,1,1,0,-1};
+      int yDir[]={0,1,1,1,0,-1,-1,-1};
+      int i=0;
+      while(i<xDir.length)
+      {
+ 
+       int xStep=xDir[i],yStep=yDir[i];
+       int xnew=x+xStep,ynew=y+yStep;
+       if(xnew>=0&&xnew<8&&ynew>=0&&ynew<8) {
+      if(board[xnew][ynew]!=symbol&&board[xnew][ynew]!=0)
+          {
+            int t=xnew;
+               for(int j=t;j<8;j++)
+               {
+                 xnew+=xStep;ynew+=yStep;
+              if(xnew>=0&&xnew<8&&ynew>=0&&ynew<8){
+              if(board[xnew][ynew]==0)
+            	  i++;
+                 if(board[xnew][ynew]==symbol)
+                   {
+                  if(xStep>0){
+                    for(int k=xnew;k>x+xStep;k--)
+                     {
+ 
+                       board[k-xStep][ynew-yStep]=symbol;
+ 
+ 
+                     }}
+                  else if(xStep<0){
+                    for(int k=x;k>xnew;k--)
+                     {
+ 
+                       board[k][ynew-yStep]=symbol;
+ 
+ 
+                     }}
+                   else if(yStep>0)
+                   {
+                     for(int f=ynew;f>y+yStep;f--)
+                     {
+                      board[xnew-xStep][f-yStep]=symbol;
+ 
+                     }
+                   }
+                   else if(yStep<0)
+                   {
+                     for(int f=y;f>ynew;f--)
+                     {
+                      board[xnew-xStep][f]=symbol;
+ 
+                     }
+                   }
+                     board[x][y]=symbol;
+                  //System.out.print(board[x][y]);
+                    return true;
+                   }
+               }
+               else
+            	   return false;}
+           }
+        else
+           i++; }
+       else
+    	   return false;
+ 
+      }
+       return false;
+ 
+ 
+	}
 
-	public boolean move(int symbol, int x, int y) {
+	public boolean move1(int symbol, int x, int y) {
 
 		int currPlayerSymbol = symbol;
 		int otherPlayerSymbol;
@@ -39,6 +115,7 @@ public class OthelloBoard {
 		// combination
 		int[] xDir = { -1, -1, 0, 1, 1, 1, 0, -1 };
 		int[] yDir = { 0, 1, 1, 1, 0, -1, -1, -1 };
+		int moveCount = 0;
 
 		for (int i = 0; i < xDir.length; i++) {
 			int xStep = xDir[i];
@@ -50,17 +127,28 @@ public class OthelloBoard {
 					} else if (board[x + xStep][y + yStep] == currPlayerSymbol){
 						break;
 					} else {
+						int tryX = x+xStep;
+						int tryY = y+yStep;
+						
+						
+						
+						
 						while (board[x + xStep][y + yStep] == otherPlayerSymbol) {
+							board[x][y] = currPlayerSymbol;
 							coOrd c = moveLogic(i, x, y);
 							x = c.x;
 							y = c.y;
-							board[x][y] = currPlayerSymbol;
+//							board[x][y] = currPlayerSymbol;
+							moveCount++;
 						}
 					}
 			}
 		}
-
-		return true;
+		
+		if (moveCount > 0)
+			return true;
+		else 
+			return false;
 	}
 
 	private coOrd moveLogic(int iteration, int x, int y) {
