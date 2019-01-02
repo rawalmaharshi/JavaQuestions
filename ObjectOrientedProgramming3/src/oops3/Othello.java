@@ -26,6 +26,11 @@ public class Othello {
 	}
 	
 	public boolean move (int symbol, int x, int y) {
+		//if the cell is occupied
+		if (board[x][y] != 0) {
+			return false;
+		}
+		
 		int currPlayerSymbol = symbol;
 		int otherPlayerSymbol;
 		if (currPlayerSymbol == 1) {
